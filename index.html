@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanisierung – Prüfungsvorbereitung</title>
+<style>
+  :root {
+    --green: #2d6a4f;
+    --green-light: #52b788;
+    --green-pale: #d8f3dc;
+    --green-dark: #1b4332;
+    --amber: #e76f51;
+    --amber-pale: #fde8e0;
+    --amber-dark: #8d3b22;
+    --gray-900: #1a1a1a;
+    --gray-700: #3d3d3d;
+    --gray-500: #6b6b6b;
+    --gray-300: #c8c8c8;
+    --gray-100: #f4f4f2;
+    --gray-50: #fafaf8;
+    --white: #ffffff;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  header {
+    background: var(--green-dark);
+    color: var(--white);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header .logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  header .logo span { color: var(--green-light); }
+  nav { display: flex; gap: 4px; margin-left: auto; }
+  nav button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.65);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  nav button:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+  nav button.active { background: rgba(255,255,255,0.15); color: var(--white); }
+
+  /* LAYOUT */
+  main { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* HERO */
+  .hero {
+    background: var(--green-dark);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 2rem 2rem 1.75rem;
+    margin-bottom: 2rem;
+  }
+  .hero h1 { font-size: 24px; font-weight: 600; margin-bottom: 0.4rem; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.65); margin-bottom: 1.25rem; }
+  .hero-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-n { font-size: 22px; font-weight: 600; color: var(--green-light); }
+  .stat-l { font-size: 12px; color: rgba(255,255,255,0.55); }
+
+  /* TOPIC GRID */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  .topic-card {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .topic-card:hover { border-color: var(--green-light); box-shadow: var(--shadow); }
+  .topic-card .tc-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .topic-card h3 { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .topic-card p { font-size: 12px; color: var(--gray-500); }
+  .topic-card .tc-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px; }
+  .pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--green-pale);
+    color: var(--green-dark);
+  }
+  .pill.amber { background: var(--amber-pale); color: var(--amber-dark); }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-500);
+    margin-bottom: 0.75rem;
+  }
+
+  /* START BUTTONS */
+  .start-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: var(--white);
+    border-color: var(--green);
+  }
+  .btn-primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
+  .btn-outline {
+    background: var(--white);
+    color: var(--green-dark);
+    border-color: var(--gray-300);
+  }
+  .btn-outline:hover { border-color: var(--green-light); }
+  .btn-amber {
+    background: var(--amber);
+    color: var(--white);
+    border-color: var(--amber);
+  }
+  .btn-amber:hover { background: var(--amber-dark); border-color: var(--amber-dark); }
+
+  /* PAGE visibility */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* SUMMARY */
+  .summary-box {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .summary-box h2 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--green-dark);
+  }
+  .summary-box p, .summary-box li {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.7;
+    margin-bottom: 0.3rem;
+  }
+  .summary-box ul { padding-left: 1.25rem; }
+  .summary-box strong { color: var(--gray-900); }
+
+  /* FLASHCARDS */
+  .fc-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--gray-300);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green-light);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .card-scene { perspective: 900px; margin-bottom: 1rem; }
+  .card-3d {
+    position: relative;
+    height: 240px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .card-3d.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .card-back-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);
+    align-items: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+  .card-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-500);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .card-question { font-size: 17px; font-weight: 500; line-height: 1.5; color: var(--gray-900); }
+  .card-hint { font-size: 12px; color: var(--gray-500); margin-top: 1rem; }
+  .answer-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .card-answer { font-size: 14px; color: var(--gray-700); line-height: 1.7; }
+  .card-answer strong { color: var(--gray-900); }
+
+  .fc-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .fc-nav .btn { padding: 8px 16px; font-size: 13px; }
+
+  /* QUIZ */
+  .quiz-q-box {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .quiz-q-meta { font-size: 12px; color: var(--gray-500); margin-bottom: 0.6rem; }
+  .quiz-q-text { font-size: 16px; font-weight: 500; line-height: 1.5; margin-bottom: 1.25rem; }
+  .quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 500px) { .quiz-opts { grid-template-columns: 1fr; } }
+  .quiz-opt {
+    background: var(--gray-100);
+    border: 1.5px solid var(--gray-300);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--gray-900);
+    line-height: 1.4;
+    transition: all 0.12s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--green-light); background: var(--green-pale); }
+  .quiz-opt.correct { background: var(--green-pale) !important; border-color: var(--green) !important; color: var(--green-dark) !important; }
+  .quiz-opt.wrong { background: #fde8e0 !important; border-color: var(--amber) !important; color: var(--amber-dark) !important; }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-next-row { display: flex; justify-content: flex-end; margin-top: 0.75rem; }
+
+  /* SCORE */
+  .score-screen {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .score-big {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .score-big.good { color: var(--green); }
+  .score-big.ok { color: #e9a800; }
+  .score-big.bad { color: var(--amber); }
+  .score-sub { font-size: 15px; color: var(--gray-500); margin-bottom: 2rem; }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb button {
+    background: none;
+    border: none;
+    color: var(--green);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .breadcrumb button:hover { color: var(--green-dark); }
+
+  /* QUIZ SELECTOR */
+  .quiz-selector {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-selector h3 { font-size: 15px; font-weight: 600; margin-bottom: 1rem; }
+  .quiz-topic-list { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-topic-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .quiz-topic-row:hover { border-color: var(--green-light); background: var(--green-pale); }
+  .quiz-topic-row span { font-size: 14px; }
+  .quiz-topic-row .badge {
+    font-size: 11px;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* CATEGORY TABS on flashcard page */
+  .cat-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .cat-tab {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-300);
+    background: transparent;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .cat-tab:hover { border-color: var(--green-light); }
+  .cat-tab.active { background: var(--green); color: var(--white); border-color: var(--green); }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-500);
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--gray-300);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Mechanisierung <span>Lernapp</span></div>
+  <nav>
+    <button id="nav-home" class="active" onclick="showPage('home')">Übersicht</button>
+    <button id="nav-flashcards" onclick="showPage('flashcards')">Lernkarten</button>
+    <button id="nav-quiz" onclick="showPage('quiz-select')">Quiz</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <h1>Mechanisierung – Prüfungsvorbereitung</h1>
+    <p>QB Praktische Arbeiten · Landwirt/in EFZ 2025</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-n" id="total-cards">0</span><span class="stat-l">Lernkarten</span></div>
+      <div class="stat"><span class="stat-n" id="total-quiz">0</span><span class="stat-l">Quizfragen</span></div>
+      <div class="stat"><span class="stat-n">8</span><span class="stat-l">Themengebiete</span></div>
+    </div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-primary" onclick="startFlashcards('all')">▶ Alle Lernkarten</button>
+    <button class="btn btn-amber" onclick="showPage('quiz-select')">Quiz starten</button>
+  </div>
+
+  <div class="section-title">Themengebiete</div>
+  <div class="topic-grid" id="topic-grid"></div>
+</div>
+
+<!-- FLASHCARD PAGE -->
+<div id="page-flashcards" class="page">
+  <div class="breadcrumb">
+    <button onclick="showPage('home')">Übersicht</button>
+    <span>›</span>
+    <span id="fc-breadcrumb">Lernkarten</span>
+  </div>
+
+  <div class="cat-tabs" id="fc-cat-tabs"></div>
+
+  <div class="fc-meta">
+    <span id="fc-topic-label">Alle Themen</span>
+    <span id="fc-counter">1 / 1</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="fc-progress"></div></div>
+
+  <div class="card-scene">
+    <div class="card-3d" id="fc-card" onclick="flipCard()">
+      <div class="card-face" id="fc-front">
+        <div class="card-tag" id="fc-front-tag">Frage</div>
+        <div class="card-question" id="fc-question">–</div>
+        <div class="card-hint">Tippe auf die Karte zum Aufdecken</div>
+      </div>
+      <div class="card-face card-back-face" id="fc-back">
+        <div class="answer-label">Antwort</div>
+        <div class="card-answer" id="fc-answer">–</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-nav">
+    <button class="btn btn-outline" id="fc-prev" onclick="fcNav(-1)">← Zurück</button>
+    <button class="btn btn-outline" onclick="startFlashcards(fcState.topicKey)">↺ Neustart</button>
+    <button class="btn btn-primary" id="fc-next" onclick="fcNav(1)">Weiter →</button>
+  </div>
+
+  <div id="fc-summary-section" style="margin-top:2rem;display:none;">
+    <div class="section-title">Zusammenfassung zum Thema</div>
+    <div class="summary-box" id="fc-summary-content"></div>
+  </div>
+</div>
+
+<!-- QUIZ SELECT PAGE -->
+<div id="page-quiz-select" class="page">
+  <div class="breadcrumb">
+    <button onclick="showPage('home')">Übersicht</button>
+    <span>›</span>
+    <span>Quiz</span>
+  </div>
+
+  <div class="quiz-selector">
+    <h3>Welches Quiz möchtest du starten?</h3>
+    <div class="quiz-topic-list" id="quiz-topic-list"></div>
+  </div>
+</div>
+
+<!-- QUIZ PAGE -->
+<div id="page-quiz" class="page">
+  <div class="breadcrumb">
+    <button onclick="showPage('quiz-select')">← Quiz-Auswahl</button>
+    <span>›</span>
+    <span id="quiz-breadcrumb">Quiz</span>
+  </div>
+
+  <div class="fc-meta">
+    <span id="quiz-topic-label">–</span>
+    <span id="quiz-counter">1 / 1</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="quiz-progress"></div></div>
+
+  <div class="quiz-q-box">
+    <div class="quiz-q-meta" id="quiz-meta">Frage 1</div>
+    <div class="quiz-q-text" id="quiz-question">–</div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+  </div>
+  <div class="quiz-next-row">
+    <button class="btn btn-primary" id="quiz-next-btn" onclick="quizNext()" style="display:none;">Nächste Frage →</button>
+  </div>
+</div>
+
+<!-- SCORE PAGE -->
+<div id="page-score" class="page">
+  <div class="breadcrumb">
+    <button onclick="showPage('quiz-select')">← Quiz-Auswahl</button>
+  </div>
+  <div class="score-screen">
+    <div class="score-big" id="score-num">0/0</div>
+    <div class="score-sub" id="score-sub">–</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" id="score-retry" onclick="">Quiz wiederholen</button>
+      <button class="btn btn-outline" onclick="showPage('quiz-select')">Andere Kategorie</button>
+      <button class="btn btn-outline" onclick="showPage('home')">Zur Übersicht</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  Mechanisierung Lernapp · QB Prakt. Arbeiten 2025 · Landwirt/in EFZ
+</footer>
+
+<script>
+const TOPICS = [
+  {
+    key: "kleinmaschinen",
+    title: "Kleinmaschinen & 2-Takt-Motoren",
+    icon: "⚙️",
+    summary: `<h2>Kleinmaschinen &amp; 2-Takt-Motoren</h2>
+<p>Kleinmaschinen wie Motorsense oder Heckenschere werden oft von 2-Takt-Motoren angetrieben. Diese Motoren haben <strong>keine Ölablassschraube</strong> – das Öl wird direkt mit dem Benzin gemischt (2-Takt-Gemisch). Vor dem Einsatz: Reinigen, Luftfilter ausblasen, Kühlrippen säubern.</p>
+<ul>
+<li><strong>Vorteile 2-Takt:</strong> leicht, lageunabhängig, einfache Bauweise</li>
+<li><strong>Nachteile 2-Takt:</strong> unsauberere Verbrennung, Lärm, schlechterer Wirkungsgrad</li>
+<li><strong>4-Takt-Vorteile:</strong> ruhiger, sauberere Verbrennung, langlebiger</li>
+<li><strong>4-Takt-Nachteile:</strong> schwerer, träger</li>
+<li><strong>Alkylatbenzin (Aspen):</strong> entmischt sich nicht, zieht kein Wasser, länger haltbar, umweltschonender</li>
+</ul>`,
+    cards: [
+      { q: "Wie erkennst du, ob ein Motor ein 2-Takt oder 4-Takt-Motor ist?", a: "<strong>2-Takt:</strong> keine Ölablassschraube, Benzin-Öl-Gemisch nötig.<br><strong>4-Takt:</strong> hat eine Ölablassschraube und separates Motorenöl." },
+      { q: "Nenne 2 Vorteile und 2 Nachteile eines 2-Takt-Motors.", a: "<strong>Vorteile:</strong> lageunabhängig, leicht und einfache Bauweise.<br><strong>Nachteile:</strong> unsauberere Verbrennung, lauter als 4-Takt." },
+      { q: "Was sind die Vorteile von Alkylatbenzin (z.B. Aspen)?", a: "Entmischt sich nicht, zieht kein Wasser, umweltschonender, gesundheitsverträglicher, länger haltbar und riecht weniger." },
+      { q: "Welche Wartungsarbeiten machst du vor dem Einsatz einer Motorsense?", a: "Maschine reinigen, Luftfilter ausblasen, Kühlrippen säubern, Werkzeug kontrollieren (Schliff prüfen), richtigen Treibstoff einfüllen." },
+      { q: "Welche Schutzausrüstung (PSA) brauchst du beim Arbeiten mit der Motorsense?", a: "Schutzbrille/Gesichtsschutz, Gehörschutz, Handschuhe, Schnittschutzstiefel und geeignete Kleidung." },
+      { q: "Wie startest du eine Motorsense korrekt?", a: "Choke ziehen, Benzinhahn öffnen, Gerät sicher auf dem Boden abstellen, dann starten. Choke nach dem Anspringen wieder schliessen." },
+      { q: "Welche Risiken gibt es beim Einsatz von Kleinmaschinen?", a: "Schnittrisiko, wegfliegende Gegenstände (Steine, Erde), Lärm, Abgase. Gerät immer abstellen bei Interventionen, Sicherheitsabstand zu Personen halten." }
+    ],
+    mc: [
+      { q: "Der 2-Takt-Motor hat keine Ölablassschraube. Was bedeutet das?", opts: ["Das Öl wird mit dem Benzin gemischt", "Der Motor braucht kein Öl", "Das Öl wechselt man nur alle 2 Jahre", "Das Öl ist im Vergaser"], correct: 0 },
+      { q: "Warum soll man bei Interventionen (z.B. Verstopfung lösen) das Gerät abstellen?", opts: ["Damit es nicht zu heiss wird", "Wegen Schnitt- und Verletzungsgefahr", "Damit Benzin gespart wird", "Das ist nicht nötig"], correct: 1 },
+      { q: "Was ist KEIN Vorteil von Alkylatbenzin?", opts: ["Es ist günstiger", "Es entmischt sich nicht", "Es ist umweltschonender", "Es ist länger haltbar"], correct: 0 },
+      { q: "Wie startet man eine Motorsense korrekt?", opts: ["Choke offen lassen, dann starten", "Choke ziehen, Benzinhahn öffnen, auf dem Boden starten", "Motor warm laufen lassen ohne Choke", "Erst Vollgas geben, dann starten"], correct: 1 }
+    ]
+  },
+  {
+    key: "motorsaege",
+    title: "Motorsäge",
+    icon: "🪚",
+    summary: `<h2>Motorsäge</h2>
+<p>Bei der Motorsäge gibt es viele Sicherheitseinrichtungen zu kennen und zu prüfen. Vor dem Einsatz: Kette spannen, Kettenöl kontrollieren, Kettenschärfe prüfen.</p>
+<ul>
+<li><strong>Sicherheitseinrichtungen:</strong> Kettenfangbolzen, Schalldämpfer, Schwingungsdämpfer, Kettenschutz, Handschutz, Kettenstopp, Gashebelsperre</li>
+<li><strong>Kettenspannung:</strong> ca. 1–1.5 cm abhebbar in der Mitte des Schwertes</li>
+<li><strong>Schwert:</strong> Nut nicht zusammengedrückt, keine blauen Stellen (= Überhitzung)</li>
+<li><strong>Tanken:</strong> zuerst Kettenöl, dann 2-Takt-Gemisch (Öl vor Benzin mischen!)</li>
+<li><strong>Beim Fällen:</strong> Zug- und Druckkräfte beachten, Absperren, Gefahr von oben!</li>
+</ul>`,
+    cards: [
+      { q: "Wie prüfst du die Kettenspannung korrekt?", a: "Die Kette muss in der Mitte des Schwertes ca. 1–1.5 cm abhebbar sein. Zu locker = gefährlich, zu fest = erhöhter Verschleiss." },
+      { q: "Nenne 4 Sicherheitseinrichtungen der Motorsäge.", a: "Kettenfangbolzen, Kettenstopp (Kettennotbremse), Handschutz (Frontschutz), Gashebelsperre, Schalldämpfer, Schwingungsdämpfer." },
+      { q: "Was prüfst du am Schwert der Motorsäge?", a: "Nut nicht zusammengedrückt, keine blauen Stellen (Überhitzung), genereller Verschleiss." },
+      { q: "Wie tankst du eine Motorsäge korrekt auf?", a: "Zuerst Kettenöl auffüllen, dann 2-Takt-Gemisch. Reihenfolge beim Mischen: Öl vor Benzin. Alkylatbenzin empfohlen." },
+      { q: "Wie hältst du die Motorsäge beim Starten?", a: "Am Boden oder gesichert halten. Nie in der Luft starten. Auf festen Stand achten." },
+      { q: "Was kontrollierst du nach dem Starten der Motorsäge?", a: "Leerlauf (Kette darf nicht nachlaufen!), Kettenstopp funktioniert (Fliehkraftkupplung), Kettenöl läuft." },
+      { q: "Welche Gefahren gibt es beim Fällen von Bäumen?", a: "Zug- und Druckkräfte im Holz, Abrutschen der Säge, Gefahr von oben (fallende Äste), Rückschlag der Kette." }
+    ],
+    mc: [
+      { q: "Wie weit soll die Kette in der Mitte des Schwertes abhebbar sein?", opts: ["0.5 cm", "1–1.5 cm", "3 cm", "5 cm"], correct: 1 },
+      { q: "Was bedeutet es, wenn die Kette im Leerlauf weiterläuft?", opts: ["Motor läuft perfekt", "Fliehkraftkupplung defekt – Gefahr!", "Kette zu locker", "Kette zu scharf"], correct: 1 },
+      { q: "Wann schaltest du die Motorsäge aus?", opts: ["Nur nach getaner Arbeit", "Bei jeder Intervention und Pause", "Nur wenn der Tank leer ist", "Nur bei Kettenrissen"], correct: 1 },
+      { q: "Was bedeuten blaue Stellen am Motorsägenschwert?", opts: ["Normale Gebrauchsspuren", "Das Schwert wurde überhitzt", "Das Schwert ist neu", "Zu viel Kettenöl"], correct: 1 },
+      { q: "In welcher Reihenfolge wird das 2-Takt-Gemisch angemischt?", opts: ["Zuerst Benzin, dann Öl", "Zuerst Öl, dann Benzin", "Gleichzeitig schütten", "Reihenfolge ist egal"], correct: 1 }
+    ]
+  },
+  {
+    key: "tageskontrolle",
+    title: "Tageskontrolle Traktor",
+    icon: "🚜",
+    summary: `<h2>Tageskontrolle Traktor (WOLKE)</h2>
+<p>Vor jedem Arbeitseinsatz führst du die Tageskontrolle am Traktor nach dem WOLKE-Prinzip durch:</p>
+<ul>
+<li><strong>W</strong> – Wasser/Kühlung: Flüssigkeitsstand prüfen (Expansionsgefäss, Deckel nie bei warmem Motor öffnen!)</li>
+<li><strong>O</strong> – Öl: Motorenöl <em>vor</em> dem Start kontrollieren, ab welcher Marke nachfüllen</li>
+<li><strong>L</strong> – Licht: alle elektrischen Anlagen vorne und hinten</li>
+<li><strong>K</strong> – Kraftstoff: Tankstand prüfen</li>
+<li><strong>E</strong> – Ein Blick unters Fahrzeug: Pneus, Öllachen, Tiere, Gegenstände</li>
+</ul>
+<p>Zusätzlich: Rückspiegel auf 100 m einstellen, Scheiben sauber, Allgemeinzustand des Traktors.</p>`,
+    cards: [
+      { q: "Wofür steht die Abkürzung WOLKE bei der Tageskontrolle?", a: "<strong>W</strong>asser, <strong>O</strong>el, <strong>L</strong>icht, <strong>K</strong>raftstoff, <strong>E</strong>in Blick unters Fahrzeug." },
+      { q: "Warum kontrollierst du das Motorenöl VOR dem Start?", a: "Wenn der Motor warm ist, verteilt sich Öl im Kreislauf – der Stand ist ungenau. Kalt messen gibt den richtigen Wert." },
+      { q: "Warum öffnest du den Kühlwasserdeckel NICHT, wenn der Motor warm ist?", a: "Das Kühlwasser steht unter Druck. Öffnen kann zu Verbrühungen führen. Immer am Expansionsgefäss prüfen." },
+      { q: "Was schaust du an, wenn du unters Fahrzeug schaust?", a: "Pneus (optisch), Öllachen (Leck?), Kinder oder Tiere, Gegenstände unter dem Fahrzeug." },
+      { q: "Warum müssen Rückspiegel auf 100 m eingestellt sein?", a: "Gesetzliche Vorschrift für landwirtschaftliche Fahrzeuge auf der Strasse – um den rückwärtigen Verkehr sicher zu beobachten." },
+      { q: "Was prüfst du beim kleinen Service am Zugfahrzeug?", a: "Schmieren (Vorderachse, Schmierstellen gem. Wartungsplan), Luftfilter reinigen, Keilriemenspannung, Wasserabscheider entleeren, Hydraulikölstand, Batterie (Pole, Säurestand), Kabinenfilter reinigen." }
+    ],
+    mc: [
+      { q: "Wann kontrollierst du den Motorölstand?", opts: ["Nach dem ersten Kilometer", "Vor dem Motorstart", "Wenn die Kontrolllampe leuchtet", "Nur beim Service"], correct: 1 },
+      { q: "Was steht das 'L' in WOLKE?", opts: ["Luft", "Licht", "Lenkung", "Lager"], correct: 1 },
+      { q: "Warum sollst du den Kühlwasserdeckel nie bei warmem Motor öffnen?", opts: ["Das Wasser ist zu heiss zum Nachfüllen", "Druck im System – Verbrühungsgefahr", "Deckel könnte brechen", "Das Wasser verdunstet sonst"], correct: 1 },
+      { q: "Wie reinigst du den Luftfilter am Traktor korrekt?", opts: ["Mit Wasser waschen", "Nur die Hauptpatrone, von innen her, Staub weg vom Fahrzeug", "Mit Hochdruckreiniger von aussen", "Luftfilter einfach ersetzen"], correct: 1 }
+    ]
+  },
+  {
+    key: "strassenverkehr",
+    title: "Strassenverkehr & Anbaugeräte",
+    icon: "🛣️",
+    summary: `<h2>Strassenverkehr &amp; Anbaugeräte</h2>
+<p>Beim Fahren auf der Strasse mit Anbaugeräten gibt es wichtige Vorschriften:</p>
+<ul>
+<li><strong>Maximalbreite:</strong> 3.50 m – darüber sind Markierlichter Pflicht</li>
+<li><strong>Vorderachsbelastung:</strong> mind. 20% des Betriebsgewichts auf der Vorderachse</li>
+<li><strong>Rückspiegel:</strong> V-Spiegel ab 3 m Überhang, Kamerasystem ab 4 m Überhang</li>
+<li><strong>Stabilisatoren</strong> für Strassenfahrt immer blockieren!</li>
+<li><strong>Sicherheitsgurt</strong> immer tragen!</li>
+<li><strong>40 km/h:</strong> grünes Kontrollschild nötig</li>
+<li><strong>Breite 2.55–3 m:</strong> braunes Kontrollschild</li>
+</ul>`,
+    cards: [
+      { q: "Ab welcher Breite braucht ein Anbaugerät Markierlichter?", a: "Ab 3.50 m. Falls das Anbaugerät die Traktorlichter um mehr als 40 cm überragt, sind ebenfalls Markierlichter nötig." },
+      { q: "Wie viel Prozent des Betriebsgewichts muss mindestens auf der Vorderachse lasten?", a: "Mindestens 20% – sonst wird die Lenkung zu leicht und das Fahrzeug ist schwer kontrollierbar." },
+      { q: "Wann brauchst du einen V-Spiegel, wann ein Kamerasystem?", a: "<strong>V-Spiegel:</strong> bei 3–4 m Überhang ab Lenkradmitte.<br><strong>Kamerasystem:</strong> bei mehr als 4 m Überhang." },
+      { q: "Welches Kontrollschild braucht ein Traktor für 40 km/h?", a: "Ein <strong>grünes Kontrollschild</strong> (eingelöst für 40 km/h). Für Breiten von 2.55–3 m ein braunes Kontrollschild." },
+      { q: "Was musst du bei der Strassenfahrt mit einem Mähwerk beachten?", a: "Sicherheitsgurt tragen, Stabilisatoren blockieren, Beleuchtung kontrollieren, Messerbalken je nach Situation abdecken, ausschwenkende Maschine beachten." },
+      { q: "Warum blockierst du die Stabilisatoren für die Strassenfahrt?", a: "Damit das Anbaugerät beim Kurvenfahren nicht seitlich ausschwingt und keine Gefahr für andere Verkehrsteilnehmer entsteht." },
+      { q: "Was prüfst du vor der Strassenfahrt mit Ladewagen?", a: "Bremskontrolle, Beleuchtung, Rückspiegel (100 m), Signalisation (30 oder 40 km/h), Achslast und Stützlast, Abmessungen und Markierungen." }
+    ],
+    mc: [
+      { q: "Ab welcher Gesamtbreite braucht ein Anbaugerät Markierlichter?", opts: ["2.50 m", "3.00 m", "3.50 m", "4.00 m"], correct: 2 },
+      { q: "Mindestens wie viel Prozent Gewicht muss auf der Vorderachse lasten?", opts: ["10%", "15%", "20%", "25%"], correct: 2 },
+      { q: "Welches Schild erlaubt 40 km/h für einen Traktor?", opts: ["Rotes Kontrollschild", "Grünes Kontrollschild", "Braunes Kontrollschild", "Weisses Kontrollschild"], correct: 1 },
+      { q: "Ab wie viel Meter Überhang braucht man ein Kamerasystem?", opts: ["2 m", "3 m", "4 m", "5 m"], correct: 2 },
+      { q: "Warum müssen Stabilisatoren für die Strassenfahrt blockiert werden?", opts: ["Um Treibstoff zu sparen", "Damit das Gerät nicht ausschwenkt", "Wegen der Bremsen", "Das ist nicht nötig"], correct: 1 }
+    ]
+  },
+  {
+    key: "maehwerk",
+    title: "Mähwerk & Motormäher",
+    icon: "🌿",
+    summary: `<h2>Mähwerk &amp; Motormäher</h2>
+<p>Beim Mähwerk und Motormäher sind Wartung und korrekte Einstellung wichtig.</p>
+<ul>
+<li><strong>Messer:</strong> Schliff prüfen, Schrauben richtig festziehen, Messerkopf (Zustand und Spiel) prüfen</li>
+<li><strong>Testlauf:</strong> Messerbalken wird handwarm → Einstellung korrekt</li>
+<li><strong>Einwintern:</strong> Reinigen, schmieren, Antirostmittel, blanke Teile schützen, fehlerhafte Teile notieren</li>
+<li><strong>4-Takt-Motor:</strong> Benzin ohne Mischöl! Taktreihenfolge kennen, Ölstand kontrollieren</li>
+<li><strong>Strassenfahrt:</strong> Sicherheitsgurt, Messerbalken abdecken, nachlaufende Maschine beachten</li>
+</ul>`,
+    cards: [
+      { q: "Was prüfst du am Messer vor dem Einbauen?", a: "Schliff (scharf genug?), Risse oder Schäden, fester Sitz im Messerhalter nach dem Einbauen." },
+      { q: "Was kontrollierst du beim Testlauf nach dem Messerwechsel?", a: "Messerbalken wird handwarm (= Reibung in Ordnung), Druckplatte, Einstellungen, keine ungewöhnlichen Geräusche." },
+      { q: "Warum muss Benzin ohne Mischöl in einen 4-Takt-Motor?", a: "Der 4-Takt hat ein getrenntes Öl-Schmiersystem. Mischöl würde den Motor beschädigen und zu Verbrennungsproblemen führen." },
+      { q: "Was machst du beim Einwintern des Mähwerks?", a: "Reinigen (Hochdruckreiniger), Inspektion (Keilriemen, Schutzblache, Trägerrahmen, Gelenkwelle), Schmierung, blanke Teile mit Antirostmittel behandeln, fehlerhafte Teile notieren." },
+      { q: "Wie stellst du die Schnitthöhe am Mähwerk ein?", a: "Mähwerk auf ebenem Grund positionieren, Schnitthöhe einstellen, Entlastung kontrollieren." },
+      { q: "Was beachtest du beim Einbau der Messer am Kreiselmähwerk?", a: "Drehrichtung beachten, mindestens alle Klingen pro Teller ersetzen, Messerhalterungen auf Verschleiss und Auflagedruck kontrollieren." }
+    ],
+    mc: [
+      { q: "Welchen Treibstoff braucht ein 4-Takt-Motor?", opts: ["Benzin-Öl-Gemisch 1:50", "Reines Benzin ohne Mischöl", "Diesel", "Alkylatbenzin gemischt"], correct: 1 },
+      { q: "Was bedeutet es, wenn der Messerbalken nach dem Testlauf 'handwarm' wird?", opts: ["Der Motor ist überhitzt", "Die Reibung ist zu hoch", "Die Einstellung ist korrekt", "Das Messer ist stumpf"], correct: 2 },
+      { q: "Was darf beim Einwintern des Mähwerks nicht vergessen werden?", opts: ["Treibstoff ablassen", "Blanke Teile mit Antirostmittel behandeln", "Reifen abmontieren", "Keilriemen entfernen"], correct: 1 },
+      { q: "Was kontrollierst du beim Messerkopf des Motormähers?", opts: ["Nur die Farbe", "Zustand und Spiel", "Nur das Gewicht", "Nur die Schrauben"], correct: 1 }
+    ]
+  },
+  {
+    key: "gelenkwelle",
+    title: "Gelenkwelle & Batterie",
+    icon: "🔋",
+    summary: `<h2>Gelenkwelle &amp; Batterie</h2>
+<p><strong>Gelenkwelle:</strong> Schütze fachgerecht montieren und sichern, Schiebeprofile schmieren, Einrastsicherung prüfen, Trichterschutz und Haltekette kontrollieren. Die rotierende Gelenkwelle ist extrem gefährlich – Schutz immer montiert!</p>
+<p><strong>Batterie:</strong></p>
+<ul>
+<li>Ausbauen: zuerst <strong>Minuspol</strong>, dann Pluspol</li>
+<li>Einbauen: zuerst <strong>Pluspol</strong>, dann Minuspol</li>
+<li>Überbrücken: Plus vor Minus anbringen, Minus vor Plus entfernen</li>
+<li>Säurestand bei Nassbatterien kontrollieren, PSA tragen!</li>
+<li>Doppelräder montieren: gleichmässig auf Brett, Fahrzeug gegen Wegrollen sichern</li>
+</ul>`,
+    cards: [
+      { q: "In welcher Reihenfolge baust du eine Batterie aus?", a: "Zuerst den <strong>Minuspol</strong> abklemmen, dann den Pluspol. So vermeidest du Kurzschlüsse." },
+      { q: "In welcher Reihenfolge baust du eine Batterie ein?", a: "Zuerst den <strong>Pluspol</strong> anschliessen, dann den Minuspol." },
+      { q: "Wie überbrückst du ein Fahrzeug korrekt?", a: "Kabel anbringen: <strong>Plus vor Minus</strong>. Entfernen: <strong>Minus vor Plus</strong>. Erst Helferfahrzeug starten, dann Pannenfahrzeug." },
+      { q: "Welche Sicherheitsmassnahmen gelten bei Batteriearbeiten?", a: "PSA tragen (Handschuhe, Schutzbrille), Kurzschlussgefahr beachten, bei Nassbatterien Säurestand prüfen – Säure nicht mit blossen Händen berühren." },
+      { q: "Was prüfst du bei der Gelenkwelle während der Wartung?", a: "Schiebeprofile auf Verschleiss und Sauberkeit, Gabel, Schutzrohr und Lager, Einrastsicherung, Trichterschutz und Haltekette mit Karabiner." },
+      { q: "Warum ist der Gelenkwellenschutz so wichtig?", a: "Die rotierende Gelenkwelle kann Kleidung oder Körperteile erfassen – das führt zu schwersten Verletzungen. Der Schutz muss immer montiert und die Haltekette gesichert sein." },
+      { q: "Wie montierst du Doppelräder korrekt?", a: "Rad steht gleichmässig auf einem Brett (niveau ausgleichen), Fahrzeug gegen Wegrollen sichern, Verschlüsse richtig verschliessen (evtl. einstellen)." }
+    ],
+    mc: [
+      { q: "Welchen Pol klemmst du zuerst ab beim Batterieausbau?", opts: ["Pluspol", "Minuspol", "Egal, beide gleichzeitig", "Zuerst die Halteklammer"], correct: 1 },
+      { q: "Beim Überbrücken – was kommt zuerst?", opts: ["Minus anbringen", "Plus anbringen", "Zuerst Pannenfahrzeug starten", "Egal"], correct: 1 },
+      { q: "Was kontrollierst du bei der Gelenkwelle?", opts: ["Nur den Schutz", "Nur die Schmierung", "Schiebeprofile, Gabel, Lager, Schutz und Einrastsicherung", "Nur die Länge"], correct: 2 },
+      { q: "In welcher Reihenfolge schliesst du eine Batterie ein?", opts: ["Minus zuerst, dann Plus", "Plus zuerst, dann Minus", "Gleichzeitig", "Egal"], correct: 1 }
+    ]
+  },
+  {
+    key: "duenger",
+    title: "Dünger, Mist & Gülle",
+    icon: "🌱",
+    summary: `<h2>Dünger, Mist &amp; Gülle</h2>
+<ul>
+<li><strong>Düngerstreuer:</strong> Einstellung nach Streutabelle (Menge, Neigung, Wurfschaufel), sofort nach Gebrauch mit Wasser reinigen!</li>
+<li><strong>Miststreuer:</strong> Kratzbodenkontrolle (Spiel max. 10 cm), Schutzvorrichtungen prüfen</li>
+<li><strong>Jauchefass:</strong> Ölstand Tröpföler, Schutzvorrichtungen, nicht über Gülle fahren</li>
+<li><strong>Frontlader:</strong> Last unten bei Fahrt, Doppelbereifung, immer Blick zurück beim Rückwärtsfahren</li>
+<li><strong>Beim Ausbringen:</strong> ECO-Zapfwellendrehzahl, angepasste Geschwindigkeit, Rand-/Grenzstreuung beachten</li>
+</ul>`,
+    cards: [
+      { q: "Warum muss der Düngerstreuer sofort nach Gebrauch gereinigt werden?", a: "Dünger ist sehr korrosiv (frisst Metall an). Sofortiges Abwaschen mit Wasser schützt die Maschine vor Rost und verlängert die Lebensdauer." },
+      { q: "Wie richtest du die Streumenge am Düngerstreuer ein?", a: "Einstellung nach Streutabelle (oder App), Mengeneinstellung (z.B. 100 kg/ha), Höhe der Hydraulik, Neigung und Wurfschaufel nach Handbuch." },
+      { q: "Was prüfst du am Kratzboden des Miststreuers?", a: "Mitte des Kratzbodens anheben: maximales Spiel 10 cm (gem. Handbuch). Auch Antriebsketten und mechanische Funktionen kontrollieren." },
+      { q: "Was beachtest du beim Einsatz des Jauchefasses?", a: "Nicht über die ausgefahrene Gülle fahren (Bodenschäden), angepasste Drehzahl und Geschwindigkeit, PSA tragen." },
+      { q: "Warum muss beim Frontladerbetrieb die Last unten sein?", a: "Tiefes Fahren verbessert die Standsicherheit und verhindert Kippen. Hoch gehobene Last verschlechtert den Schwerpunkt drastisch." },
+      { q: "Was beachtest du beim Befüllen des Vakuumfasses (Jauchefass)?", a: "Jauchegrube öffnen, Ladestelle organisieren, Ölstand des Tröpfölers kontrollieren, Schutzvorrichtungen prüfen (Kettenschutz, Zapfwellenschutz)." }
+    ],
+    mc: [
+      { q: "Warum muss der Düngerstreuer sofort gewaschen werden?", opts: ["Damit er schneller trocknet", "Dünger ist korrosiv und greift Metall an", "Gesetzliche Vorschrift", "Damit die Waage stimmt"], correct: 1 },
+      { q: "Wie weit darf die Mitte des Kratzbodens beim Miststreuer maximal abhebbar sein?", opts: ["5 cm", "10 cm", "20 cm", "30 cm"], correct: 1 },
+      { q: "Warum fährt man beim Frontlader die Last möglichst tief?", opts: ["Damit der Motor weniger Leistung braucht", "Für bessere Standsicherheit", "Damit das Öl nicht ausläuft", "Damit man besser sieht"], correct: 1 },
+      { q: "Was muss beim Befüllen des Düngerstreuers beachtet werden?", opts: ["Behälter hochheben und Schieber offen lassen", "Schieber geschlossen und Behälter abgesenkt (Ergonomie)", "Immer am Hang befüllen", "Treibstoff zuerst ablassen"], correct: 1 }
+    ]
+  },
+  {
+    key: "sicherheit",
+    title: "Sicherheit & PSA",
+    icon: "🦺",
+    summary: `<h2>Sicherheit &amp; PSA</h2>
+<p>Sicherheit ist ein Querschnittsthema. Jede Aufgabe wird auf drei Kriterien beurteilt:</p>
+<ul>
+<li><strong>Gefahrensituationen erkennen:</strong> erkannt = 0 Abzüge, teilweise = 1, nicht erkannt = 2</li>
+<li><strong>Sichere Handhabung:</strong> sicher = 0, teilweise = 1, unsicher = 2</li>
+<li><strong>Gesundheitsbewusstsein / PSA:</strong> sehr gut = 0, teilweise = 1, schlecht = 2</li>
+</ul>
+<p>Merke: <strong>0 Punkte = sehr gut, 2 Punkte = mangelhaft!</strong></p>
+<p>PSA = persönliche Schutzausrüstung: Helm, Gehörschutz, Handschuhe, Schutzbrille, Schnittschutzhose, Sicherheitsschuhe, Sicherheitsgurt im Traktor.</p>
+<p><strong>Sozial- und Selbstkompetenz:</strong> Eigenverantwortliches Handeln, Umgangsformen, überlegtes Vorgehen.</p>`,
+    cards: [
+      { q: "Was bedeutet bei der Prüfungsbewertung: Gefahrensituationen erkannt = 0 Punkte?", a: "0 Abzüge = sehr gut! Die Kandidatin hat alle Gefahren erkannt. 2 Abzüge = Gefahren nicht erkannt = mangelhaft." },
+      { q: "Was gehört zur PSA beim Arbeiten mit der Motorsäge?", a: "Helm mit Gesichtsschutz, Gehörschutz, Handschuhe, Schnittschutzhose, festes Schuhwerk (Sicherheitsschuhe), signalfarben Kleider." },
+      { q: "Was ist Methodenkompetenz und wie wird sie bewertet?", a: "Arbeitsorganisation (plant die Arbeit sinnvoll), vernetztes Denken (kennt Zusammenhänge), Qualität der Arbeit, geübter Umgang mit dem Gerät." },
+      { q: "Was ist Sozial- und Selbstkompetenz in der Prüfung?", a: "Eigenverantwortliches und selbstständiges Handeln, Umgangsformen (Höflichkeit, Respekt), überlegtes Vorgehen ohne unnötige Risiken." },
+      { q: "Was machst du, wenn eine Aufgabe nicht ausgeführt werden konnte?", a: "Der Grund wird bewertet: unverschuldet = 0 Punkte, weniger als 30% eigenes Verschulden = 1, grösstenteils selbst verschuldet = 2, komplett selbst verschuldet = 3." },
+      { q: "Was bedeutet Ergonomie im Prüfungskontext?", a: "Richtige Körperhaltung, kein Springen vom Traktor (Leiter benutzen!), PSA tragen, Sicherheitsgurt anlegen. Sehr gut = 0 Abzüge." }
+    ],
+    mc: [
+      { q: "Was bedeutet '2 Abzüge' bei der Sicherheitsbewertung?", opts: ["Sehr gute Leistung", "Durchschnittliche Leistung", "Mangelhafte Leistung – Gefahr nicht erkannt", "Ausgezeichnete Leistung"], correct: 2 },
+      { q: "Welche PSA trägst du beim Arbeiten mit der Motorsäge?", opts: ["Nur Handschuhe", "Helm, Gehörschutz, Handschuhe, Schnittschutzhose, Sicherheitsschuhe", "Nur Schutzbrille", "Keine – die Säge hat genug Sicherheitseinrichtungen"], correct: 1 },
+      { q: "Was bedeutet 'vernetztes Denken' in der Methodenkompetenz?", opts: ["Mit dem Computer arbeiten", "Zusammenhänge erkennen und Arbeit vorausschauend planen", "Schnell arbeiten", "Anweisungen genau befolgen"], correct: 1 },
+      { q: "Wann gilt ein nicht ausgeführter Auftrag als unverschuldet?", opts: ["Wenn man keine Zeit hatte", "Wenn äussere Umstände den Einsatz unmöglich machten", "Wenn das Werkzeug fehlte", "Immer"], correct: 1 }
+    ]
+  }
+];
+
+/* ---- STATE ---- */
+const fcState = { topicKey: 'all', cards: [], idx: 0, flipped: false };
+const quizState = { topicKey: 'all', questions: [], idx: 0, score: 0, answered: null };
+
+/* ---- INIT ---- */
+function init() {
+  const totalCards = TOPICS.reduce((s, t) => s + t.cards.length, 0);
+  const totalMc = TOPICS.reduce((s, t) => s + t.mc.length, 0);
+  document.getElementById('total-cards').textContent = totalCards;
+  document.getElementById('total-quiz').textContent = totalMc;
+
+  const grid = document.getElementById('topic-grid');
+  TOPICS.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'topic-card';
+    div.innerHTML = `
+      <span class="tc-icon">${t.icon}</span>
+      <h3>${t.title}</h3>
+      <div class="tc-pills">
+        <span class="pill">${t.cards.length} Karten</span>
+        <span class="pill amber">${t.mc.length} Quiz</span>
+      </div>`;
+    div.addEventListener('click', () => openTopic(t.key));
+    grid.appendChild(div);
+  });
+
+  const quizList = document.getElementById('quiz-topic-list');
+  const allRow = document.createElement('div');
+  allRow.className = 'quiz-topic-row';
+  allRow.innerHTML = `<span>⭐ Alle Fragen (Gesamtquiz)</span><span class="badge">${totalMc} Fragen</span>`;
+  allRow.addEventListener('click', () => startQuiz('all'));
+  quizList.appendChild(allRow);
+
+  TOPICS.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'quiz-topic-row';
+    row.innerHTML = `<span>${t.icon} ${t.title}</span><span class="badge">${t.mc.length} Fragen</span>`;
+    row.addEventListener('click', () => startQuiz(t.key));
+    quizList.appendChild(row);
+  });
+}
+
+/* ---- NAVIGATION ---- */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navId = { home: 'nav-home', flashcards: 'nav-flashcards', 'quiz-select': 'nav-quiz', quiz: 'nav-quiz', score: 'nav-quiz' }[id];
+  if (navId) document.getElementById(navId)?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openTopic(key) {
+  const t = TOPICS.find(x => x.key === key);
+  if (!t) return;
+  startFlashcards(key);
+}
+
+/* ---- FLASHCARDS ---- */
+function startFlashcards(topicKey) {
+  fcState.topicKey = topicKey;
+  fcState.idx = 0;
+  fcState.flipped = false;
+
+  if (topicKey === 'all') {
+    fcState.cards = TOPICS.flatMap(t => t.cards.map(c => ({ ...c, topic: t.title })));
+    document.getElementById('fc-breadcrumb').textContent = 'Alle Lernkarten';
+    document.getElementById('fc-summary-section').style.display = 'none';
+  } else {
+    const t = TOPICS.find(x => x.key === topicKey);
+    fcState.cards = t.cards.map(c => ({ ...c, topic: t.title }));
+    document.getElementById('fc-breadcrumb').textContent = t.title;
+    const sumSec = document.getElementById('fc-summary-section');
+    sumSec.style.display = 'block';
+    document.getElementById('fc-summary-content').innerHTML = t.summary;
+  }
+
+  buildCatTabs();
+  renderFlashcard();
+  showPage('flashcards');
+}
+
+function buildCatTabs() {
+  const tabs = document.getElementById('fc-cat-tabs');
+  tabs.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-tab' + (fcState.topicKey === 'all' ? ' active' : '');
+  allBtn.textContent = 'Alle';
+  allBtn.addEventListener('click', () => startFlashcards('all'));
+  tabs.appendChild(allBtn);
+
+  TOPICS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab' + (fcState.topicKey === t.key ? ' active' : '');
+    btn.textContent = t.title.split(' ')[0];
+    btn.addEventListener('click', () => startFlashcards(t.key));
+    tabs.appendChild(btn);
+  });
+}
+
+function renderFlashcard() {
+  const card = fcState.cards[fcState.idx];
+  const total = fcState.cards.length;
+  const pct = Math.round(((fcState.idx + 1) / total) * 100);
+
+  document.getElementById('fc-counter').textContent = (fcState.idx + 1) + ' / ' + total;
+  document.getElementById('fc-progress').style.width = pct + '%';
+
+  const topicLabel = fcState.topicKey === 'all' ? (card.topic || 'Frage') : card.topic;
+  document.getElementById('fc-topic-label').textContent = topicLabel;
+  document.getElementById('fc-front-tag').textContent = topicLabel + ' · Frage ' + (fcState.idx + 1);
+  document.getElementById('fc-question').textContent = card.q;
+  document.getElementById('fc-answer').innerHTML = card.a;
+
+  const cardEl = document.getElementById('fc-card');
+  cardEl.classList.remove('flipped');
+  fcState.flipped = false;
+
+  document.getElementById('fc-prev').disabled = fcState.idx === 0;
+  document.getElementById('fc-next').disabled = fcState.idx >= total - 1;
+}
+
+function flipCard() {
+  fcState.flipped = !fcState.flipped;
+  document.getElementById('fc-card').classList.toggle('flipped', fcState.flipped);
+}
+
+function fcNav(dir) {
+  const newIdx = fcState.idx + dir;
+  if (newIdx < 0 || newIdx >= fcState.cards.length) return;
+  fcState.idx = newIdx;
+  renderFlashcard();
+}
+
+/* ---- QUIZ ---- */
+function startQuiz(topicKey) {
+  quizState.topicKey = topicKey;
+  quizState.idx = 0;
+  quizState.score = 0;
+  quizState.answered = null;
+
+  if (topicKey === 'all') {
+    quizState.questions = TOPICS.flatMap(t => t.mc.map(q => ({ ...q, topicTitle: t.title })));
+  } else {
+    const t = TOPICS.find(x => x.key === topicKey);
+    quizState.questions = t.mc.map(q => ({ ...q, topicTitle: t.title }));
+  }
+
+  shuffle(quizState.questions);
+
+  const label = topicKey === 'all' ? 'Gesamtquiz' : TOPICS.find(x => x.key === topicKey)?.title;
+  document.getElementById('quiz-breadcrumb').textContent = label;
+  document.getElementById('quiz-topic-label').textContent = label;
+
+  renderQuiz();
+  showPage('quiz');
+}
+
+function renderQuiz() {
+  const total = quizState.questions.length;
+  const idx = quizState.idx;
+
+  if (idx >= total) {
+    showScore();
+    return;
+  }
+
+  const q = quizState.questions[idx];
+  const pct = Math.round((idx / total) * 100);
+
+  document.getElementById('quiz-counter').textContent = (idx + 1) + ' / ' + total;
+  document.getElementById('quiz-progress').style.width = pct + '%';
+  document.getElementById('quiz-meta').textContent = (q.topicTitle || '') + ' · Frage ' + (idx + 1);
+  document.getElementById('quiz-question').textContent = q.q;
+
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerQuiz(i));
+    opts.appendChild(btn);
+  });
+
+  document.getElementById('quiz-next-btn').style.display = 'none';
+  quizState.answered = null;
+}
+
+function answerQuiz(i) {
+  if (quizState.answered !== null) return;
+  quizState.answered = i;
+  const q = quizState.questions[quizState.idx];
+  if (i === q.correct) quizState.score++;
+
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === q.correct) btn.classList.add('correct');
+    else if (j === i) btn.classList.add('wrong');
+  });
+
+  document.getElementById('quiz-next-btn').style.display = 'inline-flex';
+}
+
+function quizNext() {
+  quizState.idx++;
+  renderQuiz();
+}
+
+function showScore() {
+  const score = quizState.score;
+  const total = quizState.questions.length;
+  const pct = Math.round((score / total) * 100);
+
+  const numEl = document.getElementById('score-num');
+  numEl.textContent = score + ' / ' + total;
+  numEl.className = 'score-big ' + (pct >= 80 ? 'good' : pct >= 60 ? 'ok' : 'bad');
+
+  let msg = '';
+  if (pct >= 80) msg = pct + '% richtig – ausgezeichnet! Du bist gut vorbereitet.';
+  else if (pct >= 60) msg = pct + '% richtig – gut, noch etwas üben!';
+  else msg = pct + '% richtig – die Lernkarten helfen dir weiter.';
+  document.getElementById('score-sub').textContent = msg;
+
+  document.getElementById('score-retry').onclick = () => startQuiz(quizState.topicKey);
+
+  showPage('score');
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+init();
+</script>
+</body>
+</html>
